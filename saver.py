@@ -13,7 +13,6 @@ import docx
 #
 # oper_num = 1
 
-
 def table_save(memory, oper_num):
     """ в функцию подаем дамп памяти и номер операции """
     doc = docx.Document()

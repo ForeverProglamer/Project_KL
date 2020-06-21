@@ -2,7 +2,6 @@ from tkinter import *
 import multiplication, memory_buffer
 
 from Project_KL.saver import table_save
-
 root = Tk()
 name_sign_1 = Label(text="Порядок Х")
 name_sign_1.pack()
