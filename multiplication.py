@@ -1,4 +1,5 @@
-import sumator, memory_buffer
+import sumator
+from instruments_for_all_operations import *
 
 
 def calculate(operation_number, order_x, order_y, sign_x, sign_y, mantis_x, mantis_y):
@@ -7,35 +8,7 @@ def calculate(operation_number, order_x, order_y, sign_x, sign_y, mantis_x, mant
     memory_buffer.clear_operation(operation_number)
     order_of_operation = list()
     mantis_of_operation = list()
-    maximum_number_for_counter = max(len(mantis_x), len(mantis_y)) + 1
-    code_table = {}
-    for number in range(maximum_number_for_counter):
-        code_table[number] = str(bin(number))[2:]
-    normal_length_for_counter = len(code_table[maximum_number_for_counter - 1])
-    for key in code_table.keys():
-        line_for_transform = code_table[key]
-        while len(line_for_transform) < normal_length_for_counter:
-            line_for_transform = "0" + line_for_transform
-        code_table[key] = line_for_transform
-
-    def type_converter(arg_list, type_flag):
-        for number in range(len(arg_list)):
-            arg_list[number] = type_flag(arg_list[number])
-
-    def record_corector(arg_list):
-        return ''.join(str(arg_list).replace('[', '').replace(']', '').replace(', ', '').replace(',', '').replace("'", ''))
-
-    def make_records(counter, rg1, rg2, rg3, mo, ct=None):
-        tact_line = list()
-        tact_line.append(str(counter))
-        tact_line.append(record_corector(rg1))
-        tact_line.append(record_corector(rg2))
-        tact_line.append(record_corector(rg3))
-        if ct is not None:
-            tact_line.append(ct)
-        tact_line.append(record_corector(mo))
-        memory_buffer.write_one_line(operation_number, tact_line)
-
+    code_table = table_code_generator(mantis_x, mantis_y, 1)
     order_x_in_list = list(order_x)
     order_y_in_list = list(order_y)
     mantis_x_in_list = list(mantis_x)
@@ -72,9 +45,9 @@ def calculate(operation_number, order_x, order_y, sign_x, sign_y, mantis_x, mant
             k += 1
             microoperations = list()
             if RG2[5] == 1:
-                print("  {0}         {1}{2}".format(k, RG3, "(Доданок)"))
+                make_records(k, "", "", RG3, "", "")
                 RG1 = sumator.use_only_sumator_core(7, RG1, RG3)
-                print("  {0}         {1}{2}".format(" ", RG1, "(Сума)"))
+                make_records("", RG1, "", "", "", "")
                 microoperations.append("RG1: = RG1 + RG3")
             RG2.insert(0, RG1[6])
             RG2.pop()
@@ -101,14 +74,14 @@ def calculate(operation_number, order_x, order_y, sign_x, sign_y, mantis_x, mant
         microoperations.append("RG1:= {0}".format(RG1))
         microoperations.append("RG2:= {0}".format(RG2))
         microoperations.append("RG3:= {0}".format(RG3))
-        make_records(k, RG1, RG2, RG3, microoperations)
+        make_records(k, RG1, RG2, RG3, microoperations, on=operation_number)
         while sum(RG2) != 0:
             k += 1
             microoperations = list()
             if RG2[5] == 1:
-                print("  {0}         {1}(Доданок)".format(k, RG3))
+                make_records(k, "", "", RG3, "", on=operation_number)
                 RG1 = sumator.use_only_sumator_core(12, RG1, RG3)
-                print("            {0}(Сума)".format(RG1))
+                make_records("", RG1, "", "", "", on=operation_number)
                 microoperations.append("RG1: = RG1 + RG3")
             RG3.reverse()
             RG3.pop()
@@ -118,7 +91,7 @@ def calculate(operation_number, order_x, order_y, sign_x, sign_y, mantis_x, mant
             RG2.insert(0, 0)
             microoperations.append("RG3: = l(RG3).0")
             microoperations.append("RG2: = 0.r(RG2)")
-            make_records(k, RG1, RG2, RG3, microoperations)
+            make_records(k, RG1, RG2, RG3, microoperations, on=operation_number)
         mantis_of_operation.extend(RG1)
 
     elif operation_number == 2:
@@ -138,7 +111,7 @@ def calculate(operation_number, order_x, order_y, sign_x, sign_y, mantis_x, mant
         microoperations.append("RG2: ={0}".format(RG2))
         microoperations.append("RG3: ={0}".format(RG3))
         microoperations.append("CT: ={0}".format(code_table[CT]))
-        make_records(k, RG1, RG2, RG3, microoperations, code_table[CT])
+        make_records(k, RG1, RG2, RG3, microoperations, code_table[CT], operation_number)
         while CT != 0:
             k += 1
             microoperations = list()
@@ -149,10 +122,10 @@ def calculate(operation_number, order_x, order_y, sign_x, sign_y, mantis_x, mant
             suma_list.extend([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
             if RG2[0] == 1:
                 suma_list = sumator.use_only_sumator_core(13, first_number, second_number)
-                print("  {0}         {1}(Доданок)".format(k, RG3))
+                make_records(k, "", "", RG3, "", "", operation_number)
                 RG2 = suma_list[0:7]
                 RG1 = suma_list[7:13]
-                print("  {0}         {1}(Сума)  {2}(Сума)".format(" ", RG1, RG2))
+                make_records("", RG1, RG2, "", "", "", operation_number)
                 microoperations.append("RG1: = RG1 + RG3")
                 microoperations.append("RG2: = RG2 + 0 + CI")
             RG1.reverse()
@@ -169,7 +142,7 @@ def calculate(operation_number, order_x, order_y, sign_x, sign_y, mantis_x, mant
             microoperations.append("CT: = CT - 1")
             if CT == 0:
                 microoperations.append("CT = 0")
-            make_records(k, RG1, RG2, RG3, microoperations, code_table[CT])
+            make_records(k, RG1, RG2, RG3, microoperations, code_table[CT], operation_number)
         RG2.extend(RG1)
         mantis_of_operation.extend(RG2[0:12])
 
@@ -186,14 +159,14 @@ def calculate(operation_number, order_x, order_y, sign_x, sign_y, mantis_x, mant
         microoperations.append("RG1: ={0}".format(RG1))
         microoperations.append("RG2: ={0}".format(RG2))
         microoperations.append("RG3: ={0}".format(RG3))
-        make_records(k, RG1, RG2, RG3, microoperations)
+        make_records(k, RG1, RG2, RG3, microoperations, on=operation_number)
         while sum(RG2) != 0:
             k += 1
             microoperations = list()
             if RG2[0] == 1:
-                print("  {0}         {1}{2}".format(k, RG3, "(Доданок)"))
+                make_records("", "", "", RG3, "", on=operation_number)
                 RG1 = sumator.use_only_sumator_core(12, RG1, RG3)
-                print("  {0}         {1}{2}".format(" ", RG1, "(Сума)"))
+                make_records("", RG1, "", "", "", on=operation_number)
                 microoperations.append("RG1: = RG1 + RG3")
             RG3.insert(0, 0)
             RG3.pop()
@@ -203,8 +176,6 @@ def calculate(operation_number, order_x, order_y, sign_x, sign_y, mantis_x, mant
             RG2.insert(len(RG2), 0)
             microoperations.append("RG3: = 0.r(RG3)")
             microoperations.append("RG2: = l(RG2).0")
-            make_records(k, RG1, RG2, RG3, microoperations)
+            make_records(k, RG1, RG2, RG3, microoperations, on=operation_number)
         mantis_of_operation.extend(RG1)
-
-    memory_buffer.write_answer(operation_number, sign_of_operation, mantis_of_operation)
-    memory_buffer.write_order(operation_number, order_of_operation)
+    save_results_in_buffer(operation_number, order_of_operation, sign_of_operation, mantis_of_operation)
