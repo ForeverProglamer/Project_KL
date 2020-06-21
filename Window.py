@@ -1,6 +1,7 @@
 from tkinter import *
 import multiplication, memory_buffer
 
+from Project_KL.saver import table_save
 root = Tk()
 name_sign_1 = Label(text="Порядок Х")
 name_sign_1.pack()
@@ -43,6 +44,7 @@ def for_command():
     print("Cтан пам'яті операцій:\n", memory_buffer.memory,
           "\nCтан пам'яті порядку:\n", memory_buffer.orders_memory,
           "\nCтан пам'яті відповіді:\n", memory_buffer.answers_memory)
+    table_save(memory_buffer.memory, int(entry_7.get()))
 
 
 button = Button(text="Обчислити", command=for_command)
