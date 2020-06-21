@@ -39,7 +39,7 @@ def clear_operation(operation_number=None):
         orders_memory[operation_number] = 0
         answers_memory[operation_number] = [0, 0]
 
-// @todo check if wrong
+# @todo check if wrong
 def clear_all_operations():
     global memory
     global orders_memory
