@@ -23,6 +23,7 @@ def table_save(memory, oper_num):
     table = doc.add_table(rows=rows, cols=cols)
     table.style = 'Table Grid'
 
+# @todo make this shit more beautiful
     if cols == 5:
         doc.tables[0].cell(0, 0).text = '№'
         doc.tables[0].cell(0, 1).text = 'RG1'
