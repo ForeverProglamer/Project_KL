@@ -6,6 +6,7 @@ def calculate(order_x, sign_x, mantis_x):
     """All variables must be string."""
     operation_number = 7
     code_table = table_code_generator(mantis_x, "", 2)
+    number_of_digits = len(mantis_x)
     order_x_in_list = list(order_x)
     sign_x_in_list = list(sign_x)
     mantis_x_in_list = list(mantis_x)
@@ -18,18 +19,20 @@ def calculate(order_x, sign_x, mantis_x):
         sumator.full_addition_procedure(order_x_in_list, [0, 1])
         order_x_in_list = sumator.sumator_answer
         mantis_x_in_list.insert(0, 0)
-        mantis_x_in_list = sumator.use_only_sumator_core(7, mantis_x_in_list, [0, 0, 0, 0, 0, 0, 1])
+        list_with_one = [0 for i in range(number_of_digits)]
+        list_with_one.append(1)
+        mantis_x_in_list = sumator.use_only_sumator_core(number_of_digits + 1, mantis_x_in_list, list_with_one)
         mantis_x_in_list.pop()
     order_x_in_list.pop()
     order_x_in_list.insert(0, 0)
     order_of_operation.extend(order_x_in_list)
     RGA = list()
-    RGA.extend([0, 0, 0, 0, 0, 0])
+    RGA.extend([0 for i in range(number_of_digits)])
     RGB = list()
-    RGB.extend([0, 0, 0, 0, 0, 0, 0, 0])
+    RGB.extend([0 for i in range (number_of_digits + 2)])
     RGC = list()
     RGC.extend(mantis_x_in_list)
-    CT = 6
+    CT = number_of_digits
     k = 0
     microoperations = list()
     microoperations.append("RGA: ={0}".format(RGA))
@@ -56,7 +59,7 @@ def calculate(order_x, sign_x, mantis_x):
     microoperations = list()
     microoperations.append("RGB = RGB + not(RGA).11")
     make_records("", "", addRG, "", microoperations, "", operation_number)
-    RGB = sumator.use_only_sumator_core(8, RGB, addRG)
+    RGB = sumator.use_only_sumator_core(number_of_digits + 2, RGB, addRG)
     make_records("", "", RGB, "", "", code_table[CT], operation_number)
     while CT != 0:
         k += 1
@@ -99,7 +102,7 @@ def calculate(order_x, sign_x, mantis_x):
             microoperations.append("RGB[0] = 0 ⇒")
             microoperations.append("RGB: = RGB + not[R]A).11")
             make_records("", "", addRG, "", microoperations, "", operation_number)
-            RGB = sumator.use_only_sumator_core(8, RGB, addRG)
+            RGB = sumator.use_only_sumator_core(number_of_digits + 2, RGB, addRG)
         elif transposition == 1:
             addRG = list()
             addRG.extend(RGA)
@@ -108,7 +111,7 @@ def calculate(order_x, sign_x, mantis_x):
             microoperations.append("RGB[0] = 1 ⇒")
             microoperations.append("RGB: = RGB + RGA.11")
             make_records("", "", addRG, "", microoperations, "", operation_number)
-            RGB = sumator.use_only_sumator_core(8, RGB, addRG)
+            RGB = sumator.use_only_sumator_core(number_of_digits + 2, RGB, addRG)
         CT -= 1
         microoperations = list()
         if CT != 0:
