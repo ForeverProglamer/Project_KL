@@ -6,6 +6,7 @@ sumator_answer_sign = list()
 sumator_answer_mantis = list()
 sumator_answer = list()
 needed_length = 0
+transposition = 0
 
 
 def bit_equalization(first_number, second_number):
@@ -47,6 +48,7 @@ def mok_transform(sign, mantis):
 
 def sumator_core(first_adder, second_adder):
     """It is find sum and make MDK, if this needed."""
+    global transposition
     result_of_sum = [0 for digit in range(needed_length)]
     add_to_next_digit = first_number_sign[0] + second_number_sign[0]
     for index in range(needed_length - 1, -1, -1):
@@ -66,6 +68,7 @@ def sumator_core(first_adder, second_adder):
         elif suma == 4:
             result_of_sum[index] = 0
             add_to_next_digit = 2
+    transposition = add_to_next_digit
     return result_of_sum
 
 
