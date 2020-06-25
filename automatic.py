@@ -6,7 +6,7 @@ import square
 import instruments_for_all_operations
 
 
-def calculate(order_x, order_y, sign_x, sign_y, mantis_x, mantis_y):
+def calculate_all(order_x, order_y, sign_x, sign_y, mantis_x, mantis_y):
     instruments_for_all_operations.set_rounding_length(mantis_x)
     multiplication.calculate(0, order_x, order_y, sign_x, sign_y, mantis_x, mantis_y)
     multiplication.calculate(1, orders_memory[0], order_y, answers_memory[0][0], sign_y, answers_memory[0][1], mantis_y)
