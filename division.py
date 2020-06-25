@@ -1,4 +1,3 @@
-import sumator
 from instruments_for_all_operations import *
 
 

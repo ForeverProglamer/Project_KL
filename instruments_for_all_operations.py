@@ -1,4 +1,6 @@
 import memory_buffer
+import sumator
+rounding_length = 6
 
 
 def table_code_generator(mantis_x, mantis_y, operation_parameter):
@@ -36,6 +38,36 @@ def make_records(counter, rg1, rg2, rg3, mo, ct=None, on=0):
     memory_buffer.write_one_line(on, tact_line)
 
 
+def set_rounding_length(first_mantis):
+    global rounding_length
+    rounding_length = len(first_mantis)
+
+
+def normalization(order, mantis):
+    """All variables must be list."""
+    while mantis[0] == 0:
+        mantis.reverse()
+        mantis.pop()
+        mantis.reverse()
+        mantis.append(0)
+        sumator.full_addition_procedure(order, [0, 1], True)
+        order = sumator.sumator_answer
+
+
+def rounding(mantis):
+    if len(mantis) > rounding_length:
+        list_with_one = [0 for i in range(rounding_length)]
+        list_with_one.append(1)
+        return sumator.use_only_sumator_core(rounding_length + 1, mantis, list_with_one)[:rounding_length]
+    else:
+        return mantis
+
+
 def save_results_in_buffer(operation_number, order_of_operation, sign_of_operation, mantis_of_operation):
+    normalization(order_of_operation, mantis_of_operation)
+    mantis_of_operation = rounding(mantis_of_operation)
+    order_of_operation = record_corector(order_of_operation)
+    sign_of_operation = record_corector(sign_of_operation)
+    mantis_of_operation = record_corector(mantis_of_operation)
     memory_buffer.write_answer(operation_number, sign_of_operation, mantis_of_operation)
     memory_buffer.write_order(operation_number, order_of_operation)
