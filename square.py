@@ -14,7 +14,7 @@ def calculate(order_x, sign_x, mantis_x):
     mantis_of_operation = list()
     type_converter(order_x_in_list, int)
     type_converter(mantis_x_in_list, int)
-    if order_x_in_list[4] == 1:
+    if order_x_in_list[len(order_x_in_list) - 1] == 1:
         sumator.full_addition_procedure(order_x_in_list, [0, 1])
         order_x_in_list = sumator.sumator_answer
         mantis_x_in_list.insert(0, 0)
