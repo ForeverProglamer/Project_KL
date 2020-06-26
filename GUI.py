@@ -1,7 +1,7 @@
 from tkinter import *
-import tkinter.messagebox
 from PIL import Image, ImageTk
-
+from Practice_window import PracticeWindow
+from Theory_window import TheoryWindow
 
 class Main:
     background_color = '#002451'
@@ -10,27 +10,17 @@ class Main:
     active_background_color = '#284C79'
     entry_background = '#002475'
 
-    def __init__(self, main):
-        self.main = root
-
-        # main_menu = Menu(root)
-        # elements_of_menu = Menu(main_menu, tearoff=0)
-        # main_menu.add_cascade(label="Menu", menu=elements_of_menu)
-        # elements_of_menu.add_command(label="Лабораторна робота №1")
-        # elements_of_menu.add_command(label="Лабораторна робота №2")
-        # elements_of_menu.add_command(label="Лабораторна робота №3")
-        # elements_of_menu.add_command(label="Лабораторна робота №4")
-        # root.config(menu=main_menu)
-
+    def __init__(self):
         left_side = Frame(root, bg=self.background_color)
         right_side = Frame(root, bg=self.background_color)
         left_side.pack(side=LEFT)
         right_side.pack(side=RIGHT)
 
         # LEFT SIDE
-        img = ImageTk.PhotoImage(Image.open(r"Photo\rb.png"))
-        label = Label(left_side, image=img)
+        self.img_main = ImageTk.PhotoImage(Image.open(r"Photo/rbr.png"))
+        label = Label(left_side, image=self.img_main, bg=self.background_color)
         label.pack()
+        # root.wm_attributes("-transparentcolor", self.background_color)
 
         # RIGHT SIDE
         right_part = Frame(right_side, bg=self.background_color)
@@ -54,18 +44,15 @@ class Main:
         label2 = Label(left_part, width=21, text="Практика", font=("Arial", 12), fg=self.front_color, bg=self.entry_background,
                        relief=FLAT)
         button_multiplication = Button(left_part, width=21, text="Множення", font=("Arial", 12), bg=self.button_color,
-                                       activebackground=self.active_background_color, relief=GROOVE)
+                                       activebackground=self.active_background_color, relief=GROOVE, command=lambda: practice_window.multiplication_window(root))
         button_division = Button(left_part, width=21, text="Ділення", font=("Arial", 12), bg=self.button_color,
-                                 activebackground=self.active_background_color, relief=GROOVE)
+                                 activebackground=self.active_background_color, relief=GROOVE, command=lambda: practice_window.division_window(root))
         button_addition = Button(left_part, width=21, text="Додавання", font=("Arial", 12), bg=self.button_color,
-                                 activebackground=self.active_background_color, relief=GROOVE)
-
+                                 activebackground=self.active_background_color, relief=GROOVE, command=lambda: practice_window.addition_window(root))
         button_sqrt = Button(left_part, width=21, text="Корінь", font=("Arial", 12), bg=self.button_color,
-                             activebackground=self.active_background_color, relief=GROOVE)
-
+                             activebackground=self.active_background_color, relief=GROOVE, command=lambda: practice_window.sqrt_window(root))
         button_number_conversion = Button(left_part, width=21, text="Перетворення чисел", font=("Arial", 12), bg=self.button_color,
-                                          activebackground=self.active_background_color, relief=GROOVE)
-
+                                          activebackground=self.active_background_color, relief=GROOVE, command=lambda: practice_window.convert_window(root))
         label1.grid(row=0, column=0, padx=15, pady=10)
         button_lab1.grid(row=1, column=0, padx=15, pady=10)
         button_lab2.grid(row=2, column=0, padx=15, pady=10)
@@ -81,9 +68,18 @@ class Main:
         button_number_conversion.grid(row=5, column=1, padx=15, pady=10)
 
 
+# def on_closing():
+#     if tkinter.messagebox.askokcancel("Quit", "Do you want to quit?"):
+#         root.destroy()
+
+
 root = Tk()
+# root.protocol("WM_DELETE_WINDOW", on_closing)
+
 root.configure(background='#002451')
 root.title("Комп'ютерна арифметика")
 root.resizable(width=False, height=False)
-program = Main(root)
+practice_window = PracticeWindow()
+theory_window = TheoryWindow()
+program = Main()
 root.mainloop()

@@ -8,3 +8,4 @@ __pycache__/instruments_for_all_operations.cpython-38.pyc
 __pycache__/memory_buffer.cpython-38.pyc
 __pycache__/multiplication.cpython-38.pyc
 __pycache__/sumator.cpython-38.pyc
+*.pyc
