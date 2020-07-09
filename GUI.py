@@ -1,89 +1,20 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from Practice_window import PracticeWindow
-
-
-class HiTech_Button():
-
-    def __init__(self, frame, text, funk=None):
-        self.button = PhotoImage(file=r"Photo/button.png")
-        self.button_active = PhotoImage(master=root, file=(r"Photo/button_active.png"))
-        self.button_hover = PhotoImage(master=root, file=(r"Photo/button_hover.png"))
-        self.btn = Label(frame, text=text, image=self.button, bg="#00171f", compound=CENTER, fg="#4bdddd", font=("", 10), bd=0)
-        self.btn.bind('<ButtonPress-1>', self.on_press)
-        self.btn.bind('<ButtonRelease-1>', self.on_rel)
-        self.btn.bind('<Enter>', self.on_enter)
-        self.btn.bind('<Leave>', self.on_leave)
-        self.funk = funk
-
-    def on_press(self, event):
-        self.btn.configure(fg="#3fa0eb", image=self.button_active)
-        if self.funk != None:
-            self.funk()
-
-    def on_rel(self, event):
-        self.btn.configure(fg="#4bdddd", image=self.button)
-
-    def on_enter(self, event):
-        self.btn.configure(image=self.button_hover)
-
-    def on_leave(self, event):
-        self.btn.configure(image=self.button)
-
-
-class HiTech_Question():
-
-    def __init__(self, frame, funk=None):
-        self.button = PhotoImage(file=r"Photo/question.png")
-        self.button_active = PhotoImage(master=root, file=(r"Photo/question_active.png"))
-        self.button_hover = PhotoImage(master=root, file=(r"Photo/question_hover.png"))
-        self.btn = Label(frame, image=self.button, bg="#00171f", compound=CENTER, bd=0)
-        self.btn.bind('<ButtonPress-1>', self.on_press)
-        self.btn.bind('<ButtonRelease-1>', self.on_rel)
-        self.btn.bind('<Enter>', self.on_enter)
-        self.btn.bind('<Leave>', self.on_leave)
-        self.funk = funk
-
-    def on_press(self, event):
-        self.btn.configure(image=self.button_active)
-        if self.funk != None:
-            self.funk()
-
-    def on_rel(self, event):
-        self.btn.configure(image=self.button)
-
-    def on_enter(self, event):
-        self.btn.configure(image=self.button_hover)
-
-    def on_leave(self, event):
-        self.btn.configure(image=self.button)
-
-
-class HiTech_Label():
-
-    def __init__(self, frame, text, type):
-        self.label_l = ImageTk.PhotoImage(Image.open(r"Photo/label_left.png"))
-        self.label_r = ImageTk.PhotoImage(Image.open(r"Photo/label_right.png"))
-        if (type == 1):
-            self.lbl = Label(frame, text=text, image=self.label_l, bg="#00171f", compound=CENTER, fg="#4bdddd", font=("", 10), bd=0)
-            self.lbl.image = self.label_l
-        else:
-            self.lbl = Label(frame, text=text, image=self.label_r, bg="#00171f", compound=CENTER, fg="#4bdddd", font=("", 10), bd=0)
-            self.lbl.image = self.label_r
-
+from disign_for_GUI import HiTech_Button, HiTech_Question, HiTech_Label
 
 root = Tk()
-hexagon = PhotoImage(file=(r"Photo/Animation/hexagon/43.gif"))
+hexagon = PhotoImage(file=r"Photo/Animation/hexagon/43.gif")
 hexagon_frame_counter = 43
-load = PhotoImage(file=(r"Photo/Animation/load/0.gif"))
+load = PhotoImage(file=r"Photo/Animation/load/0.gif")
 load_frame_counter = 0
-radar = PhotoImage(file=(r"Photo/Animation/radar/radar000.png"))
+radar = PhotoImage(file=r"Photo/Animation/radar/radar000.png")
 radar_frame_counter = 0
-logo = PhotoImage(file=(r"Photo\Animation\DNA\0.gif"))
+logo = PhotoImage(file=r"Photo\Animation\DNA\0.gif")
 logo_frame_counter = 0
-connecting = PhotoImage(file=(r"Photo\Animation\connecting\0.gif"))
+connecting = PhotoImage(file=r"Photo\Animation\connecting\0.gif")
 connecting_frame_counter = 0
-binary = PhotoImage(file=(r"Photo\Animation\binary\0.gif"))
+binary = PhotoImage(file=r"Photo\Animation\binary\0.gif")
 binary_frame_counter = 0
 
 
@@ -93,13 +24,13 @@ class Main:
     button_color = '#FF8C00'
     active_background_color = '#284C79'
     entry_background = '#002475'
-    frame_right = PhotoImage(file=(r"Photo/frame1.png"))
-    frame_bottom = PhotoImage(file=(r"Photo/frame3.png"))
+    frame_right = PhotoImage(file=r"Photo/frame1.png")
+    frame_bottom = PhotoImage(file=r"Photo/frame3.png")
     frame_left = ImageTk.PhotoImage(Image.open(r"Photo/frame2.png"))
     # bottom_logo = PhotoImage(file=(r"Photo/bottom_logo.png"))
     question = ImageTk.PhotoImage(Image.open(r"Photo/question.png"))
-    load_logo = PhotoImage(file=(r"Photo/Animation/load/load_logo.png"))
-    bg_image = PhotoImage(file=(r"Photo/background.png"))
+    load_logo = PhotoImage(file=r"Photo/Animation/load/load_logo.png")
+    bg_image = PhotoImage(file=r"Photo/background.png")
 
     def __init__(self):
         global hexagon, hexagon_animation, radar, radar_animation, logo, DNA_animation, load, load_animation, connecting, connecting_animation, binary, binary_animation
@@ -147,12 +78,12 @@ class Main:
         # canvas.create_image(783, 475, image=self.load_logo, anchor=NW)
 
         label1 = HiTech_Label(center_side, "Теорія", 1)
-        button1 = HiTech_Button(center_side, "Лабораторна робота №1")
-        button2 = HiTech_Button(center_side, "Лабораторна робота №2")
-        button3 = HiTech_Button(center_side, "Лабораторна робота №3")
-        button4 = HiTech_Button(center_side, "Лабораторна робота №4")
-        button5 = HiTech_Button(center_side, "Лабораторна робота №5")
-        question = HiTech_Question(center_side)
+        button1 = HiTech_Button(root, center_side, "Лабораторна робота №1")
+        button2 = HiTech_Button(root, center_side, "Лабораторна робота №2")
+        button3 = HiTech_Button(root, center_side, "Лабораторна робота №3")
+        button4 = HiTech_Button(root, center_side, "Лабораторна робота №4")
+        button5 = HiTech_Button(root, center_side, "Лабораторна робота №5")
+        question = HiTech_Question(root, center_side)
 
         lbl1 = canvas.create_window(700, 50, anchor=NW, window=label1.lbl)
         btn1 = canvas.create_window(700, 90, anchor=NW, window=button1.btn)
@@ -163,11 +94,11 @@ class Main:
         quest = canvas.create_window(982, 420, anchor=NW, window=question.btn)
 
         label2 = HiTech_Label(center_side, "Практика", 2)
-        button6 = HiTech_Button(center_side, "Множення", lambda: practice_window.multiplication_window(root))
-        button7 = HiTech_Button(center_side, "Ділення")
-        button8 = HiTech_Button(center_side, "Додавання")
-        button9 = HiTech_Button(center_side, "Корінь")
-        button10 = HiTech_Button(center_side, "Перетворення чисел")
+        button6 = HiTech_Button(root, center_side, "Множення", lambda: practice_window.multiplication_window(root))
+        button7 = HiTech_Button(root, center_side, "Ділення", lambda: practice_window.division_window(root))
+        button8 = HiTech_Button(root, center_side, "Додавання", lambda: practice_window.addition_window(root))
+        button9 = HiTech_Button(root, center_side, "Корінь", lambda: practice_window.sqrt_window(root))
+        button10 = HiTech_Button(root, center_side, "Перетворення чисел", lambda: practice_window.convert_window(root))
 
         lbl1 = canvas.create_window(920, 50, anchor=NW, window=label2.lbl)
         btn6 = canvas.create_window(928, 90, anchor=NW, window=button6.btn)

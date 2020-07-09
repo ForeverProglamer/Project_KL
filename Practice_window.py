@@ -12,6 +12,37 @@ class PracticeWindow:
     entry_background = '#1b4d4c'
 
     def window_for_practice(self, root):
+
+        def on_up(event):
+            current_focus = self.practice_window.focus_get().winfo_id()
+            if current_focus == self.entry_for_sign_x.winfo_id():
+                self.entry_for_order_x.focus()
+            elif current_focus == self.entry_for_mantissa_x.winfo_id():
+                self.entry_for_sign_x.focus()
+            elif current_focus == self.entry_for_order_y.winfo_id():
+                self.entry_for_mantissa_x.focus()
+            elif current_focus == self.entry_for_sign_y.winfo_id():
+                self.entry_for_order_y.focus()
+            elif current_focus == self.entry_for_mantissa_y.winfo_id():
+                self.entry_for_sign_y.focus()
+
+        def on_down(event):
+            current_focus = self.practice_window.focus_get().winfo_id()
+            if current_focus == self.entry_for_order_x.winfo_id():
+                self.entry_for_sign_x.focus()
+            elif current_focus == self.entry_for_sign_x.winfo_id():
+                self.entry_for_mantissa_x.focus()
+            elif current_focus == self.entry_for_mantissa_x.winfo_id():
+                self.entry_for_order_y.focus()
+            elif current_focus == self.entry_for_order_y.winfo_id():
+                self.entry_for_sign_y.focus()
+            elif current_focus == self.entry_for_sign_y.winfo_id():
+                self.entry_for_mantissa_y.focus()
+
+        def focus_out(event):
+            if event.widget.winfo_id() == self.entry_for_sign_x.winfo_id():
+                pass
+
         self.practice_window = Toplevel(root)
         self.practice_window.configure(background=self.background_color)
         # self.practice_window.resizable(width=False, height=False)
@@ -112,6 +143,28 @@ class PracticeWindow:
         frame_for_logo.pack(pady=10, side=BOTTOM, fill=BOTH)
         logo = Label(frame_for_logo, font=('Ubuntu', 15), text="LOGO", bg='#002451', fg='#65ffff')
         logo.pack(side=RIGHT)
+
+        #  binding
+        self.entry_for_order_x.bind("<Down>", on_down)
+        self.entry_for_sign_x.bind("<Down>", on_down)
+        self.entry_for_mantissa_x.bind("<Down>", on_down)
+        self.entry_for_order_y.bind("<Down>", on_down)
+        self.entry_for_sign_y.bind("<Down>", on_down)
+        self.entry_for_mantissa_y.bind("<Down>", on_down)
+
+        self.entry_for_order_x.bind("<Up>", on_up)
+        self.entry_for_sign_x.bind("<Up>", on_up)
+        self.entry_for_mantissa_x.bind("<Up>", on_up)
+        self.entry_for_order_y.bind("<Up>", on_up)
+        self.entry_for_sign_y.bind("<Up>", on_up)
+        self.entry_for_mantissa_y.bind("<Up>", on_up)
+
+        self.entry_for_order_x.bind("<FocusOut>", focus_out)
+        self.entry_for_sign_x.bind("<FocusOut>", focus_out)
+        self.entry_for_mantissa_x.bind("<FocusOut>", focus_out)
+        self.entry_for_order_y.bind("<FocusOut>", focus_out)
+        self.entry_for_sign_y.bind("<FocusOut>", focus_out)
+        self.entry_for_mantissa_y.bind("<FocusOut>", focus_out)
 
     def multiplication_window(self, root):
         def multiply():
