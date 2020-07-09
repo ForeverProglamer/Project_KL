@@ -5,11 +5,11 @@ import memory_buffer
 
 
 class PracticeWindow:
-    background_color = '#002451'
-    front_color = '#E8E8E7'
-    button_color = '#FF8C00'
+    background_color = '#00171f'
+    front_color = '#65ffff'
+    button_color = '#1b4d4c'
     active_background_color = '#284C79'
-    entry_background = '#002475'
+    entry_background = '#1b4d4c'
 
     def window_for_practice(self, root):
         self.practice_window = Toplevel(root)
@@ -96,7 +96,7 @@ class PracticeWindow:
         # right part
         frame_for_label = Frame(right_part, bg=self.background_color)
         frame_for_label.pack(side=TOP, fill=BOTH)
-        self.label_of_current_operation = Label(frame_for_label, bg='#A9B7C6', fg="#141781", font=("Ubuntu", 20), text="CURRENT OPERATION")
+        self.label_of_current_operation = Label(frame_for_label, bg='#1b4d4c', fg="#65ffff", font=("Ubuntu", 20), text="CURRENT OPERATION")
         self.label_of_current_operation.pack(side=TOP, fill=X)
 
         self.frame_for_text = Frame(right_part, bg=self.background_color)
@@ -108,9 +108,9 @@ class PracticeWindow:
         # scrollb_y.pack(fill=Y, side=RIGHT)
         # text.pack(side=LEFT, fill=BOTH)
 
-        frame_for_logo = Frame(right_part, bg='#002451')
+        frame_for_logo = Frame(right_part, bg='#1b4d4c')
         frame_for_logo.pack(pady=10, side=BOTTOM, fill=BOTH)
-        logo = Label(frame_for_logo, font=('Ubuntu', 15), text="LOGO", bg='#002451', fg='#A9B7C6')
+        logo = Label(frame_for_logo, font=('Ubuntu', 15), text="LOGO", bg='#002451', fg='#65ffff')
         logo.pack(side=RIGHT)
 
     def multiplication_window(self, root):
@@ -127,7 +127,7 @@ class PracticeWindow:
 
             for i in range(len(memory_buffer.memory[0])):
                 for j in range(len(memory_buffer.memory[0][i])):
-                    display_label = Label(self.frame_for_text, text="\n", bg="#00387F", fg='#E8E8E7', font=("times", 20), justify=CENTER,
+                    display_label = Label(self.frame_for_text, text="\n", bg="#1b4d4c", fg='#65ffff', font=("times", 20), justify=CENTER,
                                           relief=FLAT)
                     display_label["text"] = memory_buffer.memory[0][i][j]
                     display_label.grid(row=i + 1, column=j + 1, padx=3, pady=4)
@@ -210,13 +210,13 @@ class PracticeWindow:
         width_of_label = [2, 7, 6, 7, 3, 14]
         names_of_columns = ['№', 'RG1', 'RG2', 'RG3', 'CT', 'Операції']
         for column in range(6):
-            name_label = Label(self.frame_for_text, text=names_of_columns[column], bg="#00387F", fg='#E8E8E7', width=width_of_label[column], font=("times", 20),
+            name_label = Label(self.frame_for_text, text=names_of_columns[column], bg="#1b4d4c", fg='#65ffff', width=width_of_label[column], font=("times", 20),
                                justify=CENTER, relief=FLAT)
             name_label.grid(row=0, column=column + 1, padx=3, pady=4)
         self.list_of_labels = []
         for row in range(6):
             for column in range(6):
-                display_label = Label(self.frame_for_text, text="\n", bg="#00387F", fg='#E8E8E7', width=width_of_label[column], font=("times", 20), justify=CENTER,
+                display_label = Label(self.frame_for_text, text="\n", bg="#1b4d4c", fg='#65ffff', width=width_of_label[column], font=("times", 20), justify=CENTER,
                                       relief=FLAT)
                 display_label.grid(row=row + 1, column=column + 1, padx=3, pady=4)
                 self.list_of_labels.append(display_label)
