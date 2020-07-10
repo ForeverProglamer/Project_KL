@@ -14,7 +14,7 @@ class PracticeWindow:
     def window_for_practice(self, root):
 
         def on_up(event):
-            current_focus = self.practice_window.focus_get().winfo_id()
+            current_focus = event.widget.winfo_id()
             if current_focus == self.entry_for_sign_x.winfo_id():
                 self.entry_for_order_x.focus()
             elif current_focus == self.entry_for_mantissa_x.winfo_id():
@@ -27,7 +27,7 @@ class PracticeWindow:
                 self.entry_for_sign_y.focus()
 
         def on_down(event):
-            current_focus = self.practice_window.focus_get().winfo_id()
+            current_focus = event.widget.winfo_id()
             if current_focus == self.entry_for_order_x.winfo_id():
                 self.entry_for_sign_x.focus()
             elif current_focus == self.entry_for_sign_x.winfo_id():
@@ -40,8 +40,12 @@ class PracticeWindow:
                 self.entry_for_mantissa_y.focus()
 
         def focus_out(event):
-            if event.widget.winfo_id() == self.entry_for_sign_x.winfo_id():
-                pass
+            if self.check_entry(event.widget):
+                event.widget["bg"] = "red"
+            else:
+                event.widget["bg"] = self.entry_background
+
+
 
         self.practice_window = Toplevel(root)
         self.practice_window.configure(background=self.background_color)
@@ -120,7 +124,7 @@ class PracticeWindow:
         mantissa_y.grid(row=2, column=0, padx=8, pady=5)
         self.entry_for_mantissa_y.grid(row=2, column=1, padx=8, pady=10)
 
-        self.confirm_button = Button(left_part, width=11, text="Порахувати", font=("Arial", 12), bg=self.button_color,
+        self.confirm_button = Button(left_part, width=11, text="Порахувати", font=("Arial", 12), bg=self.button_color, fg=self.front_color,
                                      activebackground=self.active_background_color, relief=GROOVE)
         self.confirm_button.pack()
 
@@ -169,7 +173,6 @@ class PracticeWindow:
     def multiplication_window(self, root):
         def multiply():
             self.destroy_labels()
-            self.check_all_entry()
             multiplication.calculate((int(self.option_variable.get()) - 1),
                                      self.entry_for_order_x.get(),
                                      self.entry_for_order_y.get(),
@@ -185,11 +188,8 @@ class PracticeWindow:
                     display_label["text"] = memory_buffer.memory[0][i][j]
                     display_label.grid(row=i + 1, column=j + 1, padx=3, pady=4)
                     self.result_labels.append(display_label)
-            self.check_all_entry()
-            (int(self.option_variable.get()) - 1)
 
         self.check_existence_of_window(root)
-
         self.result_labels = []
         self.practice_window.title("Операція множення")
         self.label_of_current_operation["text"] = "Множення двійкових чисел"
@@ -242,22 +242,55 @@ class PracticeWindow:
         except AttributeError:
             self.window_for_practice(root)
 
-    def check_all_entry(self):
-        errors = 0
-        if not self.entry_for_order_x.get() or not self.entry_for_sign_x.get() or not self.entry_for_mantissa_x.get():
-            tkinter.messagebox.showwarning("Empty(ies) is(are) entry", "Input your data", parent=self.practice_window)
-            errors += 1
-        elif not self.entry_for_order_x.get().isdigit():
-            tkinter.messagebox.showwarning("Input error", "Wrong order", parent=self.practice_window)
-            errors += 1
+    def check_entry(self, entry):
+        # 400 - not int
+        # 401 - negative
+        # 402- there are numbers bigger than 1
+        # 403 - len of sign incorrect
+        bigger_than_1 = False
+        errors = []
+        value = entry.get()
+        if value == "":
+            pass
 
-        elif not self.entry_for_sign_x.get().isdigit():
-            tkinter.messagebox.showwarning("Input error", "Wrong sign", parent=self.practice_window)
-            errors += 1
+        else:
+            try:
+                if int(value) < 0:
+                    errors.append(401)
+                    # print("401 negative")
+                else:
+                    if 401 in errors:
+                        errors.remove(401)
+                    for el in value:  # 402
+                        if int(el) > 1:
+                            if bigger_than_1:
+                                continue
+                            else:
+                                bigger_than_1 = True
 
-        elif not self.entry_for_mantissa_x.get().isdigit():
-            tkinter.messagebox.showwarning("Input error", "Wrong mantissa", parent=self.practice_window)
-            errors += 1
+                if 400 in errors:
+                    errors.remove(400)
+
+                if bigger_than_1:
+                    # print("402 bigger than 1")
+                    errors.append(402)
+                else:
+                    if 402 in errors:
+                        errors.remove(402)
+
+                if entry.winfo_id() == self.entry_for_sign_x.winfo_id() or entry.winfo_id() == self.entry_for_sign_y.winfo_id():
+                    if len(value) == 1:
+                        if 403 in errors:
+                            errors.remove(403)
+                    else:
+                        errors.append(403)
+                        # print("403 sign troubles")
+
+            except ValueError:
+                errors.append(400)
+                # print("400 not int")
+        # print(errors)
+        return errors
 
     def reset_table(self):
         width_of_label = [2, 7, 6, 7, 3, 14]
