@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import 
 from PIL import Image, ImageTk
 from Practice_window import PracticeWindow
 from disign_for_GUI import HiTech_Button, HiTech_Question, HiTech_Label
