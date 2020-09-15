@@ -1,5 +1,5 @@
 from tkinter import *
-from PIL import Image, ImageTk
+from PIL import Image, Image
 from Practice_window import PracticeWindow
 from disign_for_GUI import HiTech_Button, HiTech_Question, HiTech_Label
 
